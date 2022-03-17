@@ -5,7 +5,7 @@ struct TemperatureDial: View {
     @State private var value: CGFloat = 0
 
     private let initialTemperature: CGFloat
-    private let scale: CGFloat = 275.0
+    private let scale: CGFloat = 100.0
     private let indicatorLength: CGFloat = 25.0
     private let maxTemperature: CGFloat = 500.0
     private let stepSize: CGFloat = 5.0
@@ -13,7 +13,6 @@ struct TemperatureDial: View {
     private var innerScale: CGFloat {
         return scale - indicatorLength
     }
-
 
     init(temperature: CGFloat) {
         self.initialTemperature = temperature
@@ -31,10 +30,13 @@ struct TemperatureDial: View {
         return degrees
     }
 
+   // var myColor = Color.applyColorName(.)
     var body: some View {
+        
        ZStack(alignment: .center) {
             Circle()
-                .fill(Color.UI.Blueberry)
+               .fill(ColorManager.GaugeBlue)
+                //.fill(Color.applyColorName(.Blueberry)
                 .frame(width: self.innerScale, height: self.innerScale, alignment: .center)
                 .rotationEffect(.degrees(-90))
                 .gesture(
@@ -50,24 +52,28 @@ struct TemperatureDial: View {
                         self.value = CGFloat(Int(((angle / 360) * (self.maxTemperature / self.stepSize)))) / (self.maxTemperature / self.stepSize)
                     }
                 )
-            Circle()
-                .stroke(Color.UI.Marachino, style: StrokeStyle(lineWidth: self.indicatorLength, lineCap: .butt, lineJoin: .miter, dash: [4]))
+                    Circle()
+               .stroke(ColorManager.GaugeRed, style: StrokeStyle(lineWidth: self.indicatorLength, lineCap: .butt, lineJoin: .miter, dash: [4]))
                 .frame(width: self.scale, height: self.scale, alignment: .center)
             Circle()
                 .trim(from: 0.0, to: self.value)
-                .stroke(Color.UI.Magnesium, style: StrokeStyle(lineWidth: self.indicatorLength, lineCap: .butt, lineJoin: .miter, dash: [4]))
+                .stroke(ColorManager.GaugeGray, style: StrokeStyle(lineWidth: self.indicatorLength, lineCap: .butt, lineJoin: .miter, dash: [4]))
                 .rotationEffect(.degrees(-90))
                 .frame(width: self.scale, height: self.scale, alignment: .center)
 
             Text("\(self.value * self.maxTemperature, specifier: "%.1f") \u{2103}")
+               
                 .font(.largeTitle)
                 .foregroundColor(Color.white)
                 .fontWeight(.semibold)
+            
        }// ZStack}
         .onAppear(perform: {
             self.value = self.initialTemperature / self.maxTemperature
         })
+        
     }
+
 }
 struct TemperatureDial_Previews: PreviewProvider {
     static var previews: some View {
@@ -75,12 +81,5 @@ struct TemperatureDial_Previews: PreviewProvider {
     }
 }
 
-extension Color {
-   // static let ui = Color.UI()
-    
-    struct UI {
-        static let Marachino = Color("Marachino")
-        static let Magnesium = Color("Magnesium")
-        static let Blueberry = Color("Blueberry")
-    }
-}
+
+

@@ -36,6 +36,8 @@ Thumbs.db
 ## Swift
 ####################
 xcuserdata/
+*.xcodeproj/
+# DerivedData/
 
 
 ## Logs and Databases
