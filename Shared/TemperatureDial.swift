@@ -55,18 +55,25 @@ struct TemperatureDial: View {
                     Circle()
                .stroke(ColorManager.GaugeRed, style: StrokeStyle(lineWidth: self.indicatorLength, lineCap: .butt, lineJoin: .miter, dash: [4]))
                 .frame(width: self.scale, height: self.scale, alignment: .center)
-            Circle()
+        //   ZStack{
+           Circle()
                 .trim(from: 0.0, to: self.value)
                 .stroke(ColorManager.GaugeGray, style: StrokeStyle(lineWidth: self.indicatorLength, lineCap: .butt, lineJoin: .miter, dash: [4]))
                 .rotationEffect(.degrees(-90))
                 .frame(width: self.scale, height: self.scale, alignment: .center)
 
             Text("\(self.value * self.maxTemperature, specifier: "%.1f") \u{2103}")
-               
                 .font(.largeTitle)
-                .foregroundColor(Color.white)
                 .fontWeight(.semibold)
-            
+
+                .lineLimit(1)
+                .minimumScaleFactor(0.3)
+                .foregroundColor(Color.white)
+                .frame(width: self.scale - indicatorLength, height: self.scale - indicatorLength, alignment: .center)
+
+         //  }
+          // .frame(width: self.scale, height: self.scale, alignment: .center)
+
        }// ZStack}
         .onAppear(perform: {
             self.value = self.initialTemperature / self.maxTemperature
